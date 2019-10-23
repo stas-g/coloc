@@ -242,12 +242,11 @@ coloc.test.summary <- function(b1,b2,V1,V2,k=1,plot.coeff=FALSE,plots.extra=NULL
     
     ## posterior for theta
     p <- length(b1)
-    const <- ( sqrt(2*pi)^p * det(V1) * det(V2) )^(-1)
     M <- function(theta) { solve(cos(theta)^2 * S1 + sin(theta)^2 * S2) }
     mu <- function(theta) { t( (cos(theta) * t(b1) %*% S1 +
                                 sin(theta) * t(b2) %*% S2) %*% M(theta) ) }
     L <- function(theta) {
-      const * prior(theta) * det(M(theta))^(-0.5) *
+       prior(theta) * det(M(theta))^(-0.5) *
         exp( -0.5 * (t(b1) %*% S1 %*% b1 + t(b2) %*% S2 %*% b2 -
                      t(mu(theta)) %*% solve(M(theta)) %*% mu(theta)) )
     }
